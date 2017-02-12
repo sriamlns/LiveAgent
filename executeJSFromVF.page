@@ -40,7 +40,7 @@ var box = new SimpleDialog("LeadDialog"+Math.random(), true);
 	box.show(); 
 } 
 
-script = ""; 
+script = "function updateLead(status){result = sforce.apex.execute(\"TestLeadConvertController\",\"updateLeadStatus\",{leadStatus:status,leadRecId:leadId}); alert(result);if (result == \"Success\"){alert(\"Yay\");} else{alert (\"Error.\");window.parent.box.hide();return;}window.parent.box.hide();sforce.console.getFocusedSubtabId(function(result){tabId = result.id;alert (\"Tab ID: \" + tabId);});sforce.console.getEnclosingPrimaryTabId(function(result){sforce.console.openSubtab(result.id, \"\/apex\/Lead_View_Override\?Id\=\"+leadId , true,\"Lead Record\", tabId, \"\", \"\");});}"; 
 
 insertScript(script);
 
