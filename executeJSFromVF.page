@@ -26,17 +26,18 @@ var targetNode = document.createElement('div');
 		el.innerHTML = "<br /><scr"+"ipt type='text/javascript' defer='defer'>"+script+"</script" + ">"; 
 	} 
 
+var sheet = document.createElement('style')
+sheet.type = 'text/css';
+sheet.innerHTML = '.btnClass { border: 1px solid #ccc; padding: 10px 20px; border-radius:25px; min-width:80px; background: #e3e9ff; width: 80px;}';
+document.getElementsByTagName('head')[0].appendChild(sheet);
+
 var box = new SimpleDialog("LeadDialog"+Math.random(), true); 
 	parent.box = box; 
 	box.setTitle("Decision dialog box"); 
 	box.createDialog(); 
 	box.setWidth(500); 
-	box.setContentInnerHTML("<p align='center'><br /><button class='btn' onclick='updateLead(\"Failed Conversion\"); return false;'>Failed Conversion</button><button class='btn' onclick='updateLead(\"Pre Opportunity\"); return false;'>Pre Opportunity</button><button class='btn' onclick='updateLead(\"Qualified\"); return false;'>Qualify</button><button id='cancelBtn' class='btn-offer' onclick='window.parent.box.hide(); return false;'>Cancel</button></p>");  
+	box.setContentInnerHTML("<p align='center'><br /><button class='btnClass'   onclick='updateLead(\"Failed Conversion\"); return false;'>Failed Conversion</button><button class='btnClass' onclick='updateLead(\"Pre Opportunity\"); return false;'>Pre Opportunity</button><button  class='btnClass' onclick='updateLead(\"Qualified\"); return false;'>Qualify</button><button class='btnClass' onclick='window.parent.box.hide(); return false;'>Cancel</button></p>");  
 	box.show(); 
-
-var myElement = document.getElementById("cancelBtn");
-myElement.style.cssText = "background: #f87;";
-alert("<<>>" + myElement);
 } 
 
 script = ""; 
