@@ -28,7 +28,7 @@ var targetNode = document.createElement('div');
 
 var sheet = document.createElement('style')
 sheet.type = 'text/css';
-sheet.innerHTML = '.btnClass { border: 1px solid #ccc; padding: 10px 20px; border-radius:25px; min-width:80px; background: #e3e9ff; width: 80px;}';
+sheet.innerHTML = '.btnClass { border: 1px solid #ccc; padding: 10px 20px; border-radius:25px; min-width:80px; background: #e3e9ff; }';
 document.getElementsByTagName('head')[0].appendChild(sheet);
 
 var box = new SimpleDialog("LeadDialog"+Math.random(), true); 
