@@ -1,0 +1,38 @@
+<apex:page contentType="text/javascript" showHeader="false" cache="false" standardStylesheets="false" expires="0">
+	
+		function insertScript(leadId, tabId, primaryTabId){ 
+
+			alert('leadId');
+
+			alert('leadId' + primaryTabId);
+
+			var targetNode = document.createElement('div');	
+			document.body.appendChild(targetNode); 
+			try {
+				var el = document.createElement('script');
+					el.type="text/javascript";
+					el.innerHTML = script;
+				targetNode.appendChild(el); 
+			} catch (e){ 
+				var el = document.createElement('span'); 
+				targetNode.appendChild(el); 
+				el.innerHTML = "\< br   \/ \>";
+				<!-- el.innerHTML = "<br /><script type='text/javascript' defer='defer'>"+script+"</script>";  -->
+			} 
+
+			<!-- var box = new SimpleDialog("lead"+Math.random(), true); 
+			parent.box = box; 
+			box.setTitle("Decision dialog box"); 
+			box.createDialog(); 
+			box.setWidth(500); 
+			box.setContentInnerHTML("<p align='center'><br /><button class='btn' onclick='updateLead(\"Failed Conversion\"); return false;'>Failed Conversion</button><button class='btn' onclick='updateLead(\"Pre Opportunity\"); return false;'>Pre Opportunity</button><button class='btn' onclick='updateLead(\"Qualified\"); return false;'>Qualify</button><button class='btn' onclick='window.parent.box.hide(); return false;'>Cancel</button></p>");  
+			box.show();  -->
+		
+		}
+<!--
+		script = "function updateLead(status){result = sforce.apex.execute(\"TestLeadConvertController\",\"updateLeadStatus\",{leadStatus:status,leadRecId:leadId}); alert(result);if (result == \"Success\"){alert(\"Yay\");} else{alert (\"Error.\");window.parent.box.hide();return;}window.parent.box.hide();sforce.console.getFocusedSubtabId(function(result){tabId = result.id;alert (\"Tab ID: \" + tabId);});sforce.console.getEnclosingPrimaryTabId(function(result){sforce.console.openSubtab(result.id, \"\/apex\/Lead_View_Override\?Id\=\"+leadId , true,\"Lead Record\", tabId, \"\", \"\");});}"; 
+
+ -->
+
+
+</apex:page>
