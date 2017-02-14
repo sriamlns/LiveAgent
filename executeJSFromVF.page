@@ -1,53 +1,54 @@
-{!REQUIRESCRIPT("/soap/ajax/33.0/connection.js")}
+{!REQUIRESCRIPT("/soap/ajax/33.0/connection.js")} 
 {!REQUIRESCRIPT("/soap/ajax/33.0/apex.js")} 
-{!REQUIRESCRIPT ("/support/console/33.0/integration.js")}
+{!REQUIRESCRIPT ("/support/console/33.0/integration.js")} 
 
-leadId = "{!Lead.Id}";
-var tabId;
-var Profilename = "{!User.Profile}" ;
+leadId = "{!Lead.Id}"; 
+var tabId; 
+var Profilename = "{!User.Profile}" ; 
 
-if(Profilename == "System Administrator" || Profilename == "CSR" || Profilename == "Enrollment Advisor" || Profilename == "Enrollment Leadership" ){
+if(Profilename == "System Administrator" || Profilename == "CSR" || Profilename == "Enrollment Advisor" || Profilename == "Enrollment Leadership" ){ 
 
-if(sforce.console.isInConsole()){
+if(sforce.console.isInConsole()){ 
 
 function insertScript(script){ 
 
 
 var targetNode = document.createElement('div');	
-	document.body.appendChild(targetNode); 
-	try {
-		var el = document.createElement('script');
-			el.type="text/javascript";
-			el.innerHTML = script;
-		targetNode.appendChild(el); 
-	} catch (e){ 
-		var el = document.createElement('span'); 
-		targetNode.appendChild(el); 
-		el.innerHTML = "<br /><scr"+"ipt type='text/javascript' defer='defer'>"+script+"</script" + ">"; 
-	} 
-
-var sheet = document.createElement('style')
-sheet.type = 'text/css';
-sheet.innerHTML = '.btnClass { border: 1px solid #ccc; padding: 10px 20px; border-radius:25px; min-width:80px; background: #e3e9ff; }';
-document.getElementsByTagName('head')[0].appendChild(sheet);
-
-var box = new SimpleDialog("LeadDialog"+Math.random(), true); 
-	parent.box = box; 
-	box.setTitle("Decision dialog box"); 
-	box.createDialog(); 
-	box.setWidth(500); 
-	box.setContentInnerHTML("<p align='center'><br /><button class='btnClass'   onclick='updateLead(\"Failed Conversion\"); return false;'>Failed Conversion</button><button class='btnClass' onclick='updateLead(\"Pre Opportunity\"); return false;'>Pre Opportunity</button><button  class='btnClass' onclick='updateLead(\"Qualified\"); return false;'>Qualify</button><button class='btnClass' onclick='window.parent.box.hide(); return false;'>Cancel</button></p>");  
-	box.show(); 
+document.body.appendChild(targetNode); 
+try { 
+var el = document.createElement('script'); 
+el.type="text/javascript"; 
+el.innerHTML = script; 
+targetNode.appendChild(el); 
+} catch (e){ 
+var el = document.createElement('span'); 
+targetNode.appendChild(el); 
+el.innerHTML = "<br /><scr"+"ipt type='text/javascript' defer='defer'>"+script+"</script" + ">"; 
 } 
 
-script = "function updateLead(status){result = sforce.apex.execute(\"TestLeadConvertController\",\"updateLeadStatus\",{leadStatus:status,leadRecId:leadId}); alert(result);if (result == \"Success\"){alert(\"Yay\");} else{alert (\"Error.\");window.parent.box.hide();return;}window.parent.box.hide();sforce.console.getFocusedSubtabId(function(result){tabId = result.id;alert (\"Tab ID: \" + tabId);});sforce.console.getEnclosingPrimaryTabId(function(result){sforce.console.openSubtab(result.id, \"\/apex\/Lead_View_Override\?Id\=\"+leadId , true,\"Lead Record\", tabId, \"\", \"\");});}"; 
+var sheet = document.createElement('style') 
+sheet.type = 'text/css'; 
+sheet.innerHTML = '.btnClass { border: 1px solid #ccc; padding: 10px 20px; border-radius:25px; min-width:80px; background: #84bfec;}'; 
+document.getElementsByTagName('head')[0].appendChild(sheet); 
 
-insertScript(script);
+var box = new SimpleDialog("LeadDialog"+Math.random(), true); 
+parent.box = box; 
+box.setTitle("Decision dialog box"); 
+box.createDialog(); 
+box.setWidth(500); 
+box.setContentInnerHTML("<p align='center'><br /><button class='btnClass' onclick='updateLead(\"Failed Conversion\"); return false;'>Failed Conversion</button><button class='btnClass' onclick='updateLead(\"Pre Opportunity\"); return false;'>Pre Opportunity</button><button class='btnClass' onclick='updateLead(\"Qualified\"); return false;'>Qualify</button><button class='btnClass' onclick='window.parent.box.hide(); return false;'>Cancel</button></p>"); 
+box.show(); 
+} 
 
-}else{
- alert("This button does not work on Standard Lead record tab.");
-}
+script = "function updateLead(status){result = sforce.apex.execute(\"liveAgentLeadConvertController\",\"updateLeadStatus\",{leadStatus:status,leadRecId:leadId}); if (result == \"Success\"){alert(\"Lead has been converted.\");} else{alert (\"Error converting lead.\");window.parent.box.hide();return;}window.parent.box.hide();sforce.console.getFocusedSubtabId(function(result){tabId = result.id;}); sforce.console.getEnclosingPrimaryTabId(function(result){sforce.console.openSubtab(result.id, \"\/apex\/Lead_View_Override\?Id\=\"+leadId , true,\"Lead Record\", tabId, \"\", \"\");});}"; 
 
-}else{
-alert("You do not have permission to utilize this button.");
+
+insertScript(script); 
+
+}else{ 
+alert("This button does not work on Standard Lead record tab."); 
+} 
+
+}else{ 
+alert("You do not have permission to utilize this button."); 
 }
