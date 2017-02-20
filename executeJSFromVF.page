@@ -4,6 +4,7 @@
 
 leadId = "{!Lead.Id}";
 var tabId;
+var subTabId;
 var Profilename = "{!User.Profile}" ;
 
 if(Profilename == "System Administrator" || Profilename == "CSR" || Profilename == "Enrollment Advisor" || Profilename == "Enrollment Leadership" ){
@@ -28,7 +29,7 @@ var targetNode = document.createElement('div');
 
 var sheet = document.createElement('style')
 sheet.type = 'text/css';
-sheet.innerHTML = '.btnClass { border: 1px solid #ccc; padding: 10px 20px; border-radius:25px; min-width:80px; background: #84bfec;}';
+sheet.innerHTML = '.btnClass { border: 1px solid #ccc; padding: 10px 20px; border-radius:25px; min-width:80px; background: #84bfec;} .msgCls { font-size: large; }';
 document.getElementsByTagName('head')[0].appendChild(sheet);
 
 var box = new SimpleDialog("LeadDialog"+Math.random(), true); 
@@ -36,11 +37,11 @@ var box = new SimpleDialog("LeadDialog"+Math.random(), true);
 	box.setTitle("Decision dialog box"); 
 	box.createDialog(); 
 	box.setWidth(500); 
-	box.setContentInnerHTML("<p align='center'><br /><button class='btnClass'   onclick='updateLead(\"Failed Conversion\"); return false;'>Failed Conversion</button><button class='btnClass' onclick='updateLead(\"Pre Opportunity\"); return false;'>Pre Opportunity</button><button  class='btnClass' onclick='updateLead(\"Qualified\"); return false;'>Qualify</button><button class='btnClass' onclick='window.parent.box.hide(); return false;'>Cancel</button></p>");  
+	box.setContentInnerHTML("<div id='mainDiv'><p align='center'><br /><button class='btnClass'   onclick='updateLead(\"Failed Conversion\"); return false;'>Failed Conversion</button><button class='btnClass' onclick='updateLead(\"Pre Opportunity\"); return false;'>Pre Opportunity</button><button  class='btnClass' onclick='updateLead(\"Qualified\"); return false;'>Qualify</button><button class='btnClass' onclick='window.parent.box.hide(); return false;'>Cancel</button></p></div>");  
 	box.show(); 
 } 
 
-script = "function updateLead(status){result = sforce.apex.execute(\"liveAgentLeadConvertController\",\"updateLeadStatus\",{leadStatus:status,leadRecId:leadId});if (result == \"Success\"){if(status == \"Failed Conversion\"){alert(\"Lead has been Disqualified.\");}else {alert(\"Lead has been Converted.\");}} else{alert (\"Error converting lead.\");window.parent.box.hide();return;}window.parent.box.hide();sforce.console.getFocusedSubtabId(function(result){tabId = result.id;}); sforce.console.getEnclosingPrimaryTabId(function(result){sforce.console.openSubtab(result.id, \"\/apex\/convertedLeadView\?Id\=\"+leadId , true,\"Lead Record\", tabId, \"\", \"\");});}"; 
+script = "function refreshSubtab(){sforce.console.getFocusedSubtabId(function(result){subTabId = result.id;});sforce.console.refreshSubtabById(subTabId, true);} function updateLead(status){result = sforce.apex.execute(\"liveAgentLeadConvertController\",\"updateLeadStatus\",{leadStatus:status,leadRecId:leadId});if (result == \"Success\"){if(status == \"Failed Conversion\"){document.getElementById(\"mainDiv\").innerHTML = \"<p align='center' class='msgCls'>Lead has been disqualified.</p><p align='center'><br /><button class='btnClass' onclick='refreshSubtab();window.parent.box.hide();return false;'>Ok</button></p>\";}else {document.getElementById(\"mainDiv\").innerHTML = \"<p align='center' class='msgCls'>Lead has been Converted.</p><p align='center'><br /><button class='btnClass'   onclick='displayCustomLeadPage(); return false;'>Ok</button></p>\";}} else{document.getElementById(\"mainDiv\").innerHTML = \"<p align='center' class='msgCls'>\" + result + \"</p><p align='center'><br /><button class='btnClass' onclick='refreshSubtab();window.parent.box.hide();return false;'>Close</button></p>\";}} function displayCustomLeadPage(){sforce.console.getFocusedSubtabId(function(result){tabId = result.id;}); sforce.console.getEnclosingPrimaryTabId(function(result){ sforce.console.openSubtab(result.id, \"\/apex\/convertedLeadView\?Id\=\"+leadId , true,\"Lead Record\", tabId, \"\", \"\");});}"; 
 
 
 insertScript(script);
